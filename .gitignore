@@ -35,5 +35,5 @@ testData/
 
 /venv/
 
-test.docx
-testPDF.pdf
+*test.docx
+*testPDF.pdf
