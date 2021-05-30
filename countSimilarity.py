@@ -20,7 +20,7 @@ def VectorizingSubstring(inputAA, inputPure, similarity):
     for j in range(len(inputAA)):
 
       if i!=j  and j>i:
-        primoVictoria=[]
+
         stringSimilar=[]
         numberSimilarity=0
 
@@ -33,7 +33,7 @@ def VectorizingSubstring(inputAA, inputPure, similarity):
             for jInd in range(len(inputAA[j])):
               if i!=j and j>i:
                 similarityArray = []
-                # print('Dokumen ke-{} dan {}'.format(i,j)) 
+
 
                 if len(inputAA[i]) == 1:
                   similarityArray.append(inputAA[i][0])
@@ -47,7 +47,7 @@ def VectorizingSubstring(inputAA, inputPure, similarity):
               
                 print(similarityArray)
 
-                vectorizer = TfidfVectorizer(input=similarityArray, analyzer='word', ngram_range=(3,6),
+                vectorizer = TfidfVectorizer(input=similarityArray, analyzer='word', ngram_range=(1,10),
                                             min_df = 0,smooth_idf=True,use_idf=True,stop_words='english')
                 tfidf_matrix =  vectorizer.fit_transform(similarityArray)
                 matrix = tfidf_matrix.toarray()
@@ -55,16 +55,9 @@ def VectorizingSubstring(inputAA, inputPure, similarity):
                 similarityMatrix = cosine_similarity(matrix)
                 totalSimilarityNow = similarityMatrix[0][1]
                 print('Similarity part : {}'.format(totalSimilarityNow))
-                # print(similarityArray[0])
-                # print(similarityArray[1])
-                # print(totalSimilarityNow)
 
-                # cosJ = cosine_similarity(tfidf_matrix[0][1])
-                # prevJI = []
-                # x=0
-                # for iVec in range(len(cosJ)):
-                  # for jVec in range(len(cosJ[iVec])):
-                    # if i!=j and iVec!=jVec and ([iVec,jVec] not in prevJI) and ([jVec,iVec] not in prevJI):
+
+
                 if totalSimilarityNow > 0.1:
                   # prevJI.append([iVec,jVec])
                   if len(inputAA[i]) == 1:
@@ -76,23 +69,23 @@ def VectorizingSubstring(inputAA, inputPure, similarity):
                     bString = inputPure[j][0]
                   else:
                     bString = inputPure[j][jInd]
-                        # stringSimilar.append(aString)
-                        # stringSimilar.append(bString)
+
                   stringSimilar.append([aString,bString])
-                # print(cosJ[iVec][jVec])
+
                 pointSimilarity= pointSimilarity + totalSimilarityNow
-                      # print("{} - {} - {}".format(iInd,jInd,cosJ[iVec][jVec])
-          # print(pointSimilarity)
-          # if(len(stringSimilar)>0):
+
+
+          # Add similarity
           numberSimilarity = numberSimilarity + pointSimilarity
             
-        # primoVictoria.append(stringSimilar)
+        
 
-        # print(numberSimilarity)
+        # Count Total Similarity
         totalSimilarity = numberSimilarity/(max(len(inputAA[i]),len(inputAA[j])))
-        # print("Total Parts : ".format(len(inputAA[i])*len(inputAA[j])))
+
         print('Total similarity : {}'.format(totalSimilarity))
-        # print(totalSimilarity)
+
+        # Append to Response
         if(totalSimilarity > similarity):
           moff["Pair"].append([i,j])
           moff["Substring"].append(stringSimilar)
