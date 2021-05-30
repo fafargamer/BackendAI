@@ -7,9 +7,9 @@ import io
 import json
 from json import dumps, loads, JSONEncoder, JSONDecoder
 from flask import Response
-# from processDocxOverallAllParagraph import processDocxParagraph
-# from processPDFOverParagraph import PPDFP
-# from vectorizerOveralloneAtATimeSubstring import VectorizingSubstring
+from processDocx import processDocxParagraph
+from processPDF import PPDFP
+from countSimilarity import VectorizingSubstring
 
 
 app = Flask(__name__)
@@ -24,42 +24,42 @@ def hello():
     # return "Wot!"
 
 
-# @app.route('/cek-kemiripan',  methods=["POST"])
-# def process_paragraph_all():
-#     data = request.get_json()
+@app.route('/cek-kemiripan',  methods=["POST"])
+def process_paragraph_all():
+    data = request.get_json()
 
-#     URLList = data['URLlist']
-#     similarity = data['similarity']
+    URLList = data['URLlist']
+    similarity = data['similarity']
 
-#     pureDocumentArray = []
-#     documentArray = []
-#     for i in range(len(URLList)):
-#         fileD = requests.get(URLList[i], allow_redirects=True)
-#         print('Downloaded')
-#         if (fileD.headers.get('content-type') == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"):
-#             print("file is Docx")
-#             a, b = processDocxParagraph(fileD)
-#             pureDocumentArray.append(a)
-#             documentArray.append(b)
-#         elif (fileD.headers.get('content-type') == "application/pdf"):
-#             print("file is PDF")
-#             a, b = PPDFP(fileD)
-#             pureDocumentArray.append(a)
-#             documentArray.append(b)
-#             # testDocXBatch.append(processPDFOverall(fileD))
-#         else:
-#             print("Does not support file type") 
+    pureDocumentArray = []
+    documentArray = []
+    for i in range(len(URLList)):
+        fileD = requests.get(URLList[i], allow_redirects=True)
+        print('Downloaded')
+        if (fileD.headers.get('content-type') == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"):
+            print("file is Docx")
+            a, b = processDocxParagraph(fileD)
+            pureDocumentArray.append(a)
+            documentArray.append(b)
+        elif (fileD.headers.get('content-type') == "application/pdf"):
+            print("file is PDF")
+            a, b = PPDFP(fileD)
+            pureDocumentArray.append(a)
+            documentArray.append(b)
+            # testDocXBatch.append(processPDFOverall(fileD))
+        else:
+            print("Does not support file type") 
         
-#         # a, b = processDocxParagraph(fileD)
+        # a, b = processDocxParagraph(fileD)
 
 
-#     print(pureDocumentArray)
-#     print(documentArray)
+    # print(pureDocumentArray)
+    # print(documentArray)
 
-#     vector = VectorizingSubstring(documentArray, pureDocumentArray, similarity)
+    vector = VectorizingSubstring(documentArray, pureDocumentArray, similarity)
     
 
-#     return json.dumps(vector)
+    return json.dumps(vector)
 
 
 if __name__ == "__main__":
