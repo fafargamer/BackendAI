@@ -14,6 +14,8 @@ import PyPDF2               #pip install PyPDF2
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, StopWordRemover, ArrayDictionary #pip install Sastrawi
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from stopwords import more_stopword as more_St
+from stopwords import extra_stopword as extra_St
+from stopwords import konjungsi as konjungsi
 
 factory = StopWordRemoverFactory()
 # factoryStem = StemmerFactory()
@@ -26,7 +28,7 @@ stop_factory = StopWordRemoverFactory().get_stop_words()
 
 
 # Merge stopword
-data = stop_factory + more_St
+data = stop_factory + more_St + konjungsi
 
 dictionary = ArrayDictionary(data)
 stopword = StopWordRemover(dictionary)
@@ -72,6 +74,7 @@ def processDocxParagraph(document):
 
         text.append(textsTokenized[0])
       textor = s.join(text)
+      textor = textor.lower()      
       textor = stopword.remove(textor)
       # textor = stemmer.stem(textor)
       textor = re.sub(r"\d+", "", textor)
