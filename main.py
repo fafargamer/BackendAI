@@ -33,6 +33,10 @@ def process_paragraph_all():
 
     pureDocumentArray = []
     documentArray = []
+
+    if len(URLList) < 2 :
+        return "Dokumen tidak dapat diakses atau terlalu sedikit"
+
     for i in range(len(URLList)):
         fileD = requests.get(URLList[i], allow_redirects=True)
         print('Downloaded')
@@ -49,9 +53,8 @@ def process_paragraph_all():
             # testDocXBatch.append(processPDFOverall(fileD))
         else:
             print("Does not support file type") 
-        
+            return "Ada file yang tidak di support"
         # a, b = processDocxParagraph(fileD)
-
 
     # print(pureDocumentArray)
     # print(documentArray)
