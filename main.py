@@ -66,7 +66,7 @@ def process_paragraph_all():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
 
 # msg = "Hello world!"
 # print(msg)
